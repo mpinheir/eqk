@@ -1,0 +1,12 @@
+{
+  "name": "eqk",
+  "description": "...",
+  "buildDir": "/eqk",
+  "output": "artifacts",
+  "projects": [
+    {
+      "name": "package",
+      "install": false
+    }
+  ]
+}
