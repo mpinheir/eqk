@@ -54,3 +54,5 @@ appimage-update.yml
 # Temporarily ignored files for rpm-related packaging files
 eqk.spec
 
+# Temporarily ignored files for Arch-AUR-related packaging files
+eqk-git/
