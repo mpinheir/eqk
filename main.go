@@ -13,6 +13,7 @@ import (
 	"os"
 	"strconv"
 	"time"
+	"net/url"
 )
 
 // EarthquakeAPIURL is the URL for earthquake data.
@@ -116,10 +117,21 @@ func printEarthquakeInfo(feature struct {
 	fmt.Printf("Magnitude: %.1f\n", feature.Properties.Mag)
 	t := time.UnixMilli(feature.Properties.Time)
 	fmt.Printf("Time: %s\n", t.UTC().Format(dateFormat))
-	// Add these lines to display Longitude and Latitude
 	fmt.Printf("Longitude: %.4f\n", feature.Geometry.Coordinates[0])
 	fmt.Printf("Latitude: %.4f\n", feature.Geometry.Coordinates[1])
+	
+	// Generate and display Google Maps link
+	mapsURL := generateGoogleMapsURL(feature.Geometry.Coordinates[1], feature.Geometry.Coordinates[0])
+	fmt.Printf("Google Maps: %s\n", mapsURL)
+	
 	fmt.Println(separator)
+}
+
+func generateGoogleMapsURL(lat, lon float64) string {
+	baseURL := "https://www.google.com/maps"
+	params := url.Values{}
+	params.Add("q", fmt.Sprintf("%f,%f", lat, lon))
+	return fmt.Sprintf("%s?%s", baseURL, params.Encode())
 }
 
 func fetchEarthquakeData() (Earthquake, error) {
