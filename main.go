@@ -40,7 +40,13 @@ type Earthquake struct {
 			Time    int64   `json:"time"`
 			Updated int64   `json:"updated"`
 			Tz      int     `json:"tz"`
+			Longitude float64 `json:"longitude"`
+			Latitude  float64 `json:"latitude"`
 		} `json:"properties"`
+		Geometry struct {
+			Type        string    `json:"type"`
+			Coordinates []float64 `json:"coordinates"`
+		} `json:"geometry"`
 	} `json:"features"`
 }
 
@@ -93,17 +99,26 @@ func listQuakes(minimumMagnitude float64) int {
 func printEarthquakeInfo(feature struct {
 	Type       string `json:"type"`
 	Properties struct {
-		Mag     float64 `json:"mag"`
-		Place   string  `json:"place"`
-		Time    int64   `json:"time"`
-		Updated int64   `json:"updated"`
-		Tz      int     `json:"tz"`
+		Mag       float64 `json:"mag"`
+		Place     string  `json:"place"`
+		Time      int64   `json:"time"`
+		Updated   int64   `json:"updated"`
+		Tz        int     `json:"tz"`
+		Longitude float64 `json:"longitude"`
+		Latitude  float64 `json:"latitude"`
 	} `json:"properties"`
+	Geometry struct {
+		Type        string    `json:"type"`
+		Coordinates []float64 `json:"coordinates"`
+	} `json:"geometry"`
 }) {
 	fmt.Printf("Epicenter: %s\n", feature.Properties.Place)
 	fmt.Printf("Magnitude: %.1f\n", feature.Properties.Mag)
 	t := time.UnixMilli(feature.Properties.Time)
 	fmt.Printf("Time: %s\n", t.UTC().Format(dateFormat))
+	// Add these lines to display Longitude and Latitude
+	fmt.Printf("Longitude: %.4f\n", feature.Geometry.Coordinates[0])
+	fmt.Printf("Latitude: %.4f\n", feature.Geometry.Coordinates[1])
 	fmt.Println(separator)
 }
 
